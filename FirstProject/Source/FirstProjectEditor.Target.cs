@@ -9,7 +9,8 @@ public class FirstProjectEditorTarget : TargetRules
 	{
 		Type = TargetType.Editor;
 		DefaultBuildSettings = BuildSettingsVersion.V5;
+        IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_5;
 
-		ExtraModuleNames.AddRange( new string[] { "FirstProject" } );
+        ExtraModuleNames.AddRange( new string[] { "FirstProject" } );
 	}
 }
