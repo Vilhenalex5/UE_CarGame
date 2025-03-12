@@ -2,6 +2,7 @@
 
 
 #include "CheckPointManager.h"
+#include "ChaosWheeledVehicleMovementComponent.h"
 
 // Sets default values
 ACheckPointManager::ACheckPointManager()
@@ -23,19 +24,28 @@ void ACheckPointManager::NotifyCheckpointCrossed(AController* Controller, AActor
 
 	if (Checkpoints[*CheckpointTracker] == Checkpoint)
 	{
-		PlayerCheckpointTracker[Controller] = FMath::Wrap(*CheckpointTracker + 1, -1, Checkpoints.Num() - 1);
-		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Magenta, "GOODDD BOY");
+		PlayerCheckpointTracker[Controller] = FMath::Wrap(*CheckpointTracker + 1, -1, Checkpoints.Num() - 1);	
 	}
 	else
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Magenta, "BAAAAD BOY");
+		int PreviousCheckpointIndex = *CheckpointTracker - 1;
+		PreviousCheckpointIndex = FMath::Wrap(PreviousCheckpointIndex, - 1, Checkpoints.Num() - 1);
+		AActor* CheckpointActor = Checkpoints[PreviousCheckpointIndex];
+
+		APawn* ControllerPawn = Controller->GetPawn();
+
+		UChaosWheeledVehicleMovementComponent* VehicleComponent = Cast<UChaosWheeledVehicleMovementComponent>(ControllerPawn->GetComponentByClass(UChaosWheeledVehicleMovementComponent::StaticClass()));
+		VehicleComponent->ResetVehicleState();
+		ControllerPawn->SetActorLocationAndRotation(CheckpointActor->GetActorLocation(), CheckpointActor->GetActorRotation(), false, nullptr, ETeleportType::TeleportPhysics);
 	}
 
 }
+
 
 void ACheckPointManager::RegisterPlayer(AController* ControllerToRegister)
 {
 	PlayerCheckpointTracker.Add(ControllerToRegister, 0);
 }
+
 
 
