@@ -28,4 +28,17 @@ protected:
 
 	UPROPERTY()
 	TMap<AController*, int> PlayerCheckpointTracker;
+
+	// Wraps Value Around Min Max, Both Inclusive
+	template<typename T>
+	T SimpleWrap(T Value, T Min, T Max)
+	{
+		if (Value < Min)
+			return Max;
+
+		if(Value > Max)
+			return Min;
+
+		return Value;
+	}
 };

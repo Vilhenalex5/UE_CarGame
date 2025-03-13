@@ -30,7 +30,7 @@ void ACheckPointManager::NotifyCheckpointCrossed(AController* Controller, AActor
 	{
 
 		int PreviousCheckpointIndex = *CheckpointTracker - 1;
-		PreviousCheckpointIndex = FMath::Wrap(PreviousCheckpointIndex, - 1, Checkpoints.Num() - 1);
+		PreviousCheckpointIndex = SimpleWrap(PreviousCheckpointIndex, 0, Checkpoints.Num() - 1);
 		AActor* CheckpointActor = Checkpoints[PreviousCheckpointIndex];
 
 		APawn* ControllerPawn = Controller->GetPawn();
@@ -42,11 +42,7 @@ void ACheckPointManager::NotifyCheckpointCrossed(AController* Controller, AActor
 
 }
 
-
 void ACheckPointManager::RegisterPlayer(AController* ControllerToRegister)
 {
 	PlayerCheckpointTracker.Add(ControllerToRegister, 0);
 }
-
-
-
