@@ -28,6 +28,7 @@ void ACheckPointManager::NotifyCheckpointCrossed(AController* Controller, AActor
 	}
 	else
 	{
+
 		int PreviousCheckpointIndex = *CheckpointTracker - 1;
 		PreviousCheckpointIndex = FMath::Wrap(PreviousCheckpointIndex, - 1, Checkpoints.Num() - 1);
 		AActor* CheckpointActor = Checkpoints[PreviousCheckpointIndex];
